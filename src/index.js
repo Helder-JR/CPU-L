@@ -1,14 +1,12 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+
+// Necessário para carregar as variáveis de ambiente da aplicação.
+require('dotenv').config()
 
 // Módulo que contém as rotas necessárias da aplicação.
 const routes = require('./routes')
-
-// O host que irá hospedar a aplicação.
-const host = '127.0.0.1'
-
-// A porta em que a aplicação será executada.
-const port = 3000
 
 // Permite que a aplicação possa ler arquivos JSON.
 app.use(express.json())
@@ -16,5 +14,10 @@ app.use(express.json())
 // Permite que a aplicação possa utilizar as rotas pré-estabelecidas.
 app.use(routes)
 
+// Evita que sites maliciosos se passem por essa aplicação, limitando os
+// domínios que podem fazer usos das rotas pré-estabelecidas.
+app.use(cors())
+
 // Inicia o servidor da aplicação.
-app.listen(port, host, () => { console.log(`Executando servidor na porta ${port}`) })
+app.listen(process.env.PORT, process.env.HOST,() =>
+{ console.log(`Executando servidor na porta ${process.env.PORT}.`) })

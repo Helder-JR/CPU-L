@@ -1,20 +1,23 @@
 const Router = require('express')
 
-// Função que expões as funções dos métodos HTTP necessários para acessar as
-// rotas da aplicação.
+const ProcessorController = require('../controllers/ProcessorController')
+
+// Expões as funções dos métodos HTTP necessários para acessar as rotas
+// da aplicação.
 const routes = Router()
 
-// Função que cria um objeto referente a um processador através do corpo da
-// requisição e o salva no banco de dados da aplicação.
-routes.post('/processors', (req, res) =>
-{
-    const processor = req.body
+// Cria um objeto referente a um processador através do corpo da requisição
+// e o salva no banco de dados da aplicação.
+routes.post('/processors', ProcessorController.create)
 
-    console.log(processors)
+// Recupera a lista dos processadores presente no banco de dados.
+routes.get('/processors', ProcessorController.index)
 
-    res.status(201)
-    res.json({ vendor: processor.vendor, inserted: true })
-})
+// Acessa as informações de um processador no banco de dados.
+routes.get('/processors/:id', ProcessorController.pick)
+
+// Deleta um processador presente no banco de dados.
+routes.delete('/processors/:id', ProcessorController.delete)
 
 // Exposição do módulo de rotas da aplicação.
 module.exports = routes
